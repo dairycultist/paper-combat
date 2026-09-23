@@ -2,11 +2,13 @@
 
 [ext_resource type="ArrayMesh" uid="uid://cobe7p503hojk" path="res://grid/wall_edge.tres" id="1_xb5ts"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_xb5ts"]
+
 [resource]
 item/0/name = ""
 item/0/mesh = ExtResource("1_xb5ts")
 item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/mesh_cast_shadow = 1
-item/0/shapes = []
+item/0/shapes = [SubResource("BoxShape3D_xb5ts"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)]
 item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/navigation_layers = 1

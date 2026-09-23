@@ -1,14 +1,7 @@
 [gd_scene format=3 uid="uid://dtkmryync4m25"]
 
 [ext_resource type="MeshLibrary" uid="uid://c116vpbthr5rx" path="res://grid.tres" id="1_fj7yv"]
-[ext_resource type="Texture2D" uid="uid://broycc76gxur3" path="res://icon.svg" id="2_tlwt5"]
 [ext_resource type="Shader" uid="uid://dwmvqm8ecgorv" path="res://postprocesser.gdshader" id="3_aqk2v"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
-shading_mode = 0
-albedo_texture = ExtResource("2_tlwt5")
-
-[sub_resource type="BoxMesh" id="BoxMesh_lxpj2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tlwt5"]
 shader = ExtResource("3_aqk2v")
@@ -20,11 +13,9 @@ shader_parameter/fisheye = 0.125
 [node name="GridMap" type="GridMap" parent="." unique_id=696520472]
 mesh_library = ExtResource("1_fj7yv")
 cell_size = Vector3(1, 1, 1)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1555440586]
-transform = Transform3D(0.82284063, 0, -0.56827223, -0.23889455, 0.9073447, -0.34591192, 0.5156188, 0.4203875, 0.7466001, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_aqk2v")
-mesh = SubResource("BoxMesh_lxpj2")
+data = {
+"cells": PackedInt32Array(65533, 65535, 0, 65534, 65535, 0, 65535, 65535, 0, 0, 65535, 0, 1, 65535, 0, 2, 65535, 0, 3, 65535, 0)
+}
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1180919189]
 material = SubResource("ShaderMaterial_tlwt5")
@@ -42,4 +33,8 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=981291168]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6537678, 3)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=897215429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4578968, 1.2834611)
+light_energy = 16.0

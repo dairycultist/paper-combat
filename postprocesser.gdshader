@@ -1,13 +1,13 @@
 shader_type canvas_item;
 
 uniform int y_res = 240;
+uniform float fisheye = 0.1;
 
 vec2 curve(vec2 uv) {
 
 	uv = (uv - 0.5) * 2.0;
-	uv *= 1.1;	
-	uv.x *= 1.0 + pow((abs(uv.y) / 5.0), 2.0);
-	uv.y *= 1.0 + pow((abs(uv.x) / 4.0), 2.0);
+	uv *= 1.1;
+	uv *= 1.0 + uv.x * uv.x * uv.x * uv.x * uv.y * uv.y * uv.y * uv.y * fisheye;
 	uv  = (uv / 2.0) + 0.5;
 	uv =  uv * 0.92 + 0.04;
 

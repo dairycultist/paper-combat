@@ -13,6 +13,7 @@ albedo_texture = ExtResource("2_tlwt5")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tlwt5"]
 shader = ExtResource("3_aqk2v")
 shader_parameter/y_res = 240
+shader_parameter/fisheye = 0.125
 
 [node name="World" type="Node3D" unique_id=1813493337]
 

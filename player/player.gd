@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
-@export var gravity : float = 3.0
-@export var jump_speed : float = 4.0
+@export var gravity : float = 20.0
+@export var jump_speed : float = 7.0
 @export var run_speed : float = 5.0
 @export var acceleration : float = 10.0
 
@@ -18,8 +18,11 @@ func _process(delta: float) -> void:
 	# moving
 	if move:
 		velocity.x = lerp(velocity.x, run_speed * move, acceleration * delta)
+		$AnimationPlayer.play("walk")
+		$Sprite3D.flip_h = move < 0.0
 	else:
 		velocity.x = lerp(velocity.x, 0.0, acceleration * delta)
+		$AnimationPlayer.play("idle")
 	
 	# grounding-related stuff
 	if is_on_floor():
@@ -31,15 +34,24 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("jump"):
 			jump_t = 0.0
 			velocity.y = jump_speed
+			$AnimationPlayer.play("jump")
 		
 	else:
 		# gravity
 		velocity.y -= gravity * delta
+		
+		if velocity.y > 0.0:
+			$AnimationPlayer.play("jump")
+		else:
+			$AnimationPlayer.play("fall")
 	
 	is_grounded = is_on_floor()
 	
 	if Input.is_action_just_pressed("attack"):
 		attack_t = 0.0
+	
+	if attack_t < 0.3:
+		$AnimationPlayer.play("kick")
 	
 	# special moves
 	

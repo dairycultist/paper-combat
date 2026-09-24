@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://dtkmryync4m25"]
 
 [ext_resource type="MeshLibrary" uid="uid://c116vpbthr5rx" path="res://grid.tres" id="1_fj7yv"]
-[ext_resource type="Texture2D" uid="uid://broycc76gxur3" path="res://icon.svg" id="2_tlwt5"]
-[ext_resource type="Script" uid="uid://wsr7gkvx2yin" path="res://player.gd" id="3_036b0"]
+[ext_resource type="Script" uid="uid://wsr7gkvx2yin" path="res://player/player.gd" id="3_036b0"]
 [ext_resource type="Shader" uid="uid://dwmvqm8ecgorv" path="res://postprocesser.gdshader" id="3_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://b54ddbnfhobl5" path="res://player/sprites/idle1.png" id="4_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://5pnclv5esc1l" path="res://player/sprites/walk1.png" id="5_dwbse"]
+[ext_resource type="Texture2D" uid="uid://d08rc6tybfxd5" path="res://player/sprites/fall1.png" id="5_gbfbk"]
+[ext_resource type="Texture2D" uid="uid://tyt211p842j7" path="res://player/sprites/jump1.png" id="5_pkg7o"]
+[ext_resource type="Texture2D" uid="uid://ddut1futkamiu" path="res://player/sprites/walk2.png" id="6_pkg7o"]
+[ext_resource type="Texture2D" uid="uid://bw8ero4k7v640" path="res://player/sprites/kick.png" id="7_ioo17"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tlwt5"]
 shader = ExtResource("3_aqk2v")
@@ -11,6 +16,112 @@ shader_parameter/y_res = 240
 shader_parameter/fisheye = 0.125
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxpj2"]
+
+[sub_resource type="Animation" id="Animation_gbfbk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_aqk2v")]
+}
+
+[sub_resource type="Animation" id="Animation_k3n1d"]
+resource_name = "fall"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_gbfbk")]
+}
+
+[sub_resource type="Animation" id="Animation_ioo17"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_aqk2v")]
+}
+
+[sub_resource type="Animation" id="Animation_ic0uy"]
+resource_name = "jump"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_pkg7o")]
+}
+
+[sub_resource type="Animation" id="Animation_2o6r5"]
+resource_name = "kick"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_ioo17")]
+}
+
+[sub_resource type="Animation" id="Animation_wse8f"]
+resource_name = "walk"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("5_dwbse"), ExtResource("6_pkg7o")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ic0uy"]
+_data = {
+&"RESET": SubResource("Animation_gbfbk"),
+&"fall": SubResource("Animation_k3n1d"),
+&"idle": SubResource("Animation_ioo17"),
+&"jump": SubResource("Animation_ic0uy"),
+&"kick": SubResource("Animation_2o6r5"),
+&"walk": SubResource("Animation_wse8f")
+}
 
 [node name="World" type="Node3D" unique_id=1813493337]
 
@@ -43,8 +154,6 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("3_036b0")
-gravity = 20.0
-jump_speed = 7.0
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Player" unique_id=981291168]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
@@ -55,8 +164,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_lxpj2")
 
 [node name="Sprite3D" type="Sprite3D" parent="SubViewportContainer/SubViewport/Player" unique_id=472198156]
-offset = Vector2(0, 64)
-texture = ExtResource("2_tlwt5")
+offset = Vector2(0, 128)
+double_sided = false
+texture = ExtResource("4_aqk2v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/Player" unique_id=287707076]
+libraries/ = SubResource("AnimationLibrary_ic0uy")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=897215429]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4578968, 1.2834611)

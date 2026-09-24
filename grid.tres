@@ -1,6 +1,6 @@
 [gd_resource type="MeshLibrary" format=3 uid="uid://c116vpbthr5rx"]
 
-[ext_resource type="ArrayMesh" uid="uid://cobe7p503hojk" path="res://grid/wall_edge.tres" id="1_xb5ts"]
+[ext_resource type="ArrayMesh" uid="uid://cobe7p503hojk" path="res://gridmeshes/wall_edge.tres" id="1_xb5ts"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xb5ts"]
 

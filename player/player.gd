@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var jump_speed : float = 7.0
 @export var run_speed : float = 5.0
 @export var acceleration : float = 10.0
+@export var kickdash_speed_mult : float = 2.5
 
 # timers representing the time since relevant actions
 var jump_t : float
@@ -51,19 +52,19 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("attack") and attack_t > 0.35:
 		attack_t = 0.0
+		
+		if not is_grounded:
+			velocity.x *= kickdash_speed_mult
 	
 	# determine attack
-	if abs(jump_t - attack_t) < 0.1 and attack_t < 0.3 and not is_grounded:
-		anim_to_play = "flying_tornado_kick"
-	elif attack_t < 0.3:
-		anim_to_play = "punch"
-		velocity.x = lerp(velocity.x, 0.0, acceleration * 2.0 * delta)
-	
-	# attack = punch
-	# jump + attack = flying tornado kick
-	# attack + airborne = flying kickdash
-	# attack + landing = sliding kickdash
-	# attack then jump = uppercut (knocks enemy into air)
+	if attack_t < 0.3:
+		if abs(jump_t - attack_t) < 0.1 and not is_grounded:
+			anim_to_play = "flying_tornado_kick"
+		elif not is_grounded:
+			anim_to_play = "punch"
+		else:
+			anim_to_play = "punch"
+			velocity.x = lerp(velocity.x, 0.0, acceleration * 2.0 * delta)
 	
 	move_and_slide()
 	

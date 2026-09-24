@@ -203,6 +203,19 @@ texture = ExtResource("4_aqk2v")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/Player" unique_id=287707076]
 libraries/ = SubResource("AnimationLibrary_ic0uy")
 
+[node name="Label" type="Label" parent="SubViewportContainer/SubViewport" unique_id=824954894]
+offset_left = 245.0
+offset_top = -1.0
+offset_right = 961.0
+offset_bottom = 288.0
+theme_override_font_sizes/font_size = 28
+text = "Z = jump
+X = punch
+Z + X = flying tornado kick
+X + in air = flying kickdash
+X + just landed = sliding kickdash
+X then Z = uppercut (knocks enemy into air)"
+
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=897215429]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4578968, 1.2834611)
 light_energy = 16.0

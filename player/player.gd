@@ -13,16 +13,18 @@ var is_grounded : bool
 
 func _process(delta: float) -> void:
 	
+	var anim_to_play : String
+	
 	var move := Input.get_axis("move_left", "move_right")
 	
 	# moving
 	if move:
 		velocity.x = lerp(velocity.x, run_speed * move, acceleration * delta)
-		$AnimationPlayer.play("walk")
+		anim_to_play = "walk"
 		$Sprite3D.flip_h = move < 0.0
 	else:
 		velocity.x = lerp(velocity.x, 0.0, acceleration * delta)
-		$AnimationPlayer.play("idle")
+		anim_to_play = "idle"
 	
 	# grounding-related stuff
 	if is_on_floor():
@@ -34,32 +36,39 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("jump"):
 			jump_t = 0.0
 			velocity.y = jump_speed
-			$AnimationPlayer.play("jump")
+			anim_to_play = "jump"
 		
 	else:
 		# gravity
 		velocity.y -= gravity * delta
 		
 		if velocity.y > 0.0:
-			$AnimationPlayer.play("jump")
+			anim_to_play = "jump"
 		else:
-			$AnimationPlayer.play("fall")
+			anim_to_play = "fall"
 	
 	is_grounded = is_on_floor()
 	
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and attack_t > 0.35:
 		attack_t = 0.0
 	
-	if attack_t < 0.3:
-		$AnimationPlayer.play("kick")
+	# determine attack
+	if abs(jump_t - attack_t) < 0.1 and attack_t < 0.3 and not is_grounded:
+		anim_to_play = "flying_tornado_kick"
+	elif attack_t < 0.3:
+		anim_to_play = "punch"
+		velocity.x = lerp(velocity.x, 0.0, acceleration * 2.0 * delta)
 	
-	# special moves
-	
-	# im gonna make a fighting game you press B to jump and A to punch and A+B to do
-	# a flying tornado kick and A in the air to do a flying kickdash and A then B to
-	# do an uppercut and A right on landing on the ground to do a sliding kickdash
+	# attack = punch
+	# jump + attack = flying tornado kick
+	# attack + airborne = flying kickdash
+	# attack + landing = sliding kickdash
+	# attack then jump = uppercut (knocks enemy into air)
 	
 	move_and_slide()
+	
+	$Sprite3D.scale = Vector3.ONE
+	$AnimationPlayer.play(anim_to_play)
 	
 	jump_t += delta
 	attack_t += delta
